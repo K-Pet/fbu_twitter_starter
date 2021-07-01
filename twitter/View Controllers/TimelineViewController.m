@@ -11,10 +11,12 @@
 #import "LoginViewController.h"
 #import "TweetCell.h"
 #import "Tweet.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface TimelineViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) NSArray *arrayOfTweets;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
 
 @end
 
@@ -27,6 +29,15 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     
+    [self fetchTweets];
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(fetchTweets) forControlEvents:UIControlEventValueChanged];
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
+    [self.tableView addSubview:self.refreshControl];
+}
+
+- (void) fetchTweets {
     // Get timeline
     [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
         if (tweets) {
@@ -40,6 +51,7 @@
         } else {
             NSLog(@"😫😫😫 Error getting home timeline: %@", error.localizedDescription);
         }
+        [self.refreshControl endRefreshing];
         
     }];
 }
@@ -70,8 +82,12 @@
         Tweet *tweet = self.arrayOfTweets[indexPath.row];
         
         cell.nameLabel.text = tweet.user.name;
-        cell.screennameLabel.text = tweet.user.screenName;
-        
+        NSString *atSymbol = @"@";
+        cell.screennameLabel.text = [atSymbol stringByAppendingString:tweet.user.screenName];
+        cell.tweetTextLabel.text = tweet.text;
+        cell.createdAtLabel.text = tweet.createdAtString;
+        NSURL *profilePicURL = [NSURL URLWithString:tweet.user.profilePicture];
+        [cell.pfpView setImageWithURL:profilePicURL];
     
         
     return cell;
