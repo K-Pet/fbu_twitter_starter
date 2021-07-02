@@ -13,6 +13,7 @@
 #import "Tweet.h"
 #import "UIImageView+AFNetworking.h"
 #import "ComposeViewController.h"
+#import "DateTools.h"
 
 @interface TimelineViewController () <UITableViewDelegate, UITableViewDataSource, ComposeViewControllerDelegate>
 @property (nonatomic, strong) NSMutableArray *arrayOfTweets;
@@ -81,12 +82,17 @@
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell"];
     
         Tweet *tweet = self.arrayOfTweets[indexPath.row];
-        
+        cell.tweet = tweet;
         cell.nameLabel.text = tweet.user.name;
         NSString *atSymbol = @"@";
         cell.screennameLabel.text = [atSymbol stringByAppendingString:tweet.user.screenName];
         cell.tweetTextLabel.text = tweet.text;
-        cell.createdAtLabel.text = tweet.createdAtString;
+        NSString *stringDate = tweet.originalDate;
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"E MMM d HH:mm:ss Z y";
+        NSDate *dateDate = [formatter dateFromString:stringDate];
+    NSLog(@"%@", dateDate);
+        cell.createdAtLabel.text = dateDate.shortTimeAgoSinceNow;
         NSURL *profilePicURL = [NSURL URLWithString:tweet.user.profilePicture];
         [cell.pfpView setImageWithURL:profilePicURL];
     
