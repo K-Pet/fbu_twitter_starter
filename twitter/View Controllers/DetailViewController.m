@@ -11,6 +11,7 @@
 #import "TweetCell.h"
 #import "Tweet.h"
 #import "DateTools.h"
+#import "APIManager.h"
 
 
 @interface DetailViewController ()
@@ -47,6 +48,35 @@
     NSDate *dateDate = [formatter dateFromString:stringDate];
     
     self.createdAtLabel.text = dateDate.shortTimeAgoSinceNow;
+    
+}
+- (IBAction)didTapFavorite:(id)sender {
+    self.tweet.favorited = YES;
+    self.tweet.favoriteCount += 1;
+    // TODO: Update cell UI
+    // TODO: Send a POST request to the POST favorites/create endpoint
+    [[APIManager shared] favorite: self.tweet completion:^(Tweet *tweet, NSError *error) {
+         if(error){
+              NSLog(@"Error favoriting tweet: %@", error.localizedDescription);
+         }
+         else{
+             NSLog(@"Successfully favorited the following Tweet: %@", tweet.text);
+             [self.favoriteButton setImage:[UIImage imageNamed:@"favor-icon-red"] forState:UIControlStateNormal];
+         }
+     }];
+}
+- (IBAction)didTapRetweet:(id)sender {
+    self.tweet.retweeted = YES;
+    self.tweet.retweetCount += 1;
+    [[APIManager shared] retweet: self.tweet completion:^(Tweet *tweet, NSError *error) {
+         if(error){
+              NSLog(@"Error retweeting tweet: %@", error.localizedDescription);
+         }
+         else{
+             NSLog(@"Successfully retweeted the following Tweet: %@", tweet.text);
+             [self.retweetButton setImage:[UIImage imageNamed:@"retweet-icon-green"] forState:UIControlStateNormal];
+         }
+     }];
     
 }
 

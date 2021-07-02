@@ -255,6 +255,9 @@
                                 </constraints>
                                 <state key="normal" title="Button" image="favor-icon"/>
                                 <state key="selected" image="favor-icon-red"/>
+                                <connections>
+                                    <action selector="didTapFavorite:" destination="3RY-Oh-SqF" eventType="touchUpInside" id="1Xg-JD-EFy"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0zk-jl-PgY">
                                 <rect key="frame" x="273" y="192.33333333333334" width="30" height="30"/>
@@ -264,6 +267,9 @@
                                 </constraints>
                                 <state key="normal" title="Button" image="retweet-icon"/>
                                 <state key="selected" image="retweet-icon-green"/>
+                                <connections>
+                                    <action selector="didTapRetweet:" destination="3RY-Oh-SqF" eventType="touchUpInside" id="uD6-rB-Lxy"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="TLy-An-KRy"/>
