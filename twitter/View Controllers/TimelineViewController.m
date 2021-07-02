@@ -9,6 +9,7 @@
 #import "TimelineViewController.h"
 #import "APIManager.h"
 #import "LoginViewController.h"
+#import "DetailViewController.h"
 #import "TweetCell.h"
 #import "Tweet.h"
 #import "UIImageView+AFNetworking.h"
@@ -91,7 +92,7 @@
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         formatter.dateFormat = @"E MMM d HH:mm:ss Z y";
         NSDate *dateDate = [formatter dateFromString:stringDate];
-    NSLog(@"%@", dateDate);
+        NSLog(@"%@", dateDate);
         cell.createdAtLabel.text = dateDate.shortTimeAgoSinceNow;
         NSURL *profilePicURL = [NSURL URLWithString:tweet.user.profilePicture];
         [cell.pfpView setImageWithURL:profilePicURL];
@@ -111,9 +112,19 @@
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    UINavigationController *navigationController = [segue destinationViewController];
-    ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
-    composeController.delegate = self;
+    if ([segue.identifier isEqual:@"ComposeSegue"]){
+        UINavigationController *navigationController = [segue destinationViewController];
+        ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
+        composeController.delegate = self;
+    }
+    else if ([segue.identifier isEqual:@"DetailSegue"]){
+        UITableViewCell *tappedCell = sender;
+        NSIndexPath *indexpath = [self.tableView indexPathForCell:tappedCell];
+        NSDictionary *tweet = self.arrayOfTweets[indexpath.row];
+        DetailViewController *detailViewController = [segue destinationViewController];
+        detailViewController.tweet = tweet;
+        
+    }
 }
 
 
