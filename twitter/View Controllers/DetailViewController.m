@@ -36,7 +36,6 @@
     NSURL *profilePicURL = [NSURL URLWithString:self.tweet.user.profilePicture];
     [self.pfpImageView setImageWithURL:profilePicURL];
     
-    // Beyblade
     
     self.nameLabel.text = self.tweet.user.name;
     NSString *atSymbol = @"@";
@@ -53,8 +52,7 @@
 - (IBAction)didTapFavorite:(id)sender {
     self.tweet.favorited = YES;
     self.tweet.favoriteCount += 1;
-    // TODO: Update cell UI
-    // TODO: Send a POST request to the POST favorites/create endpoint
+
     [[APIManager shared] favorite: self.tweet completion:^(Tweet *tweet, NSError *error) {
          if(error){
               NSLog(@"Error favoriting tweet: %@", error.localizedDescription);
