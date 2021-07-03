@@ -47,14 +47,14 @@ The following **additional** features are implemented:
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
 1. Better study meathods to help better remember topics
-2. Ways to recorf your GIF
+2. Ways to record your GIF
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
-![](https://i.imgur.com/jJfMqX1.gif)
-![](https://i.imgur.com/7Tb3bcX.gif)
 
+![](https://i.imgur.com/7Tb3bcX.gif)
+![](https://github.com/K-Pet/fbu_twitter_starter/blob/main/Twitter.gif)
 
 GIF created with [Kap](https://getkap.co/).
 
